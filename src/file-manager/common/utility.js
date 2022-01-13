@@ -274,7 +274,13 @@ define(["require", "exports", "../base/classes", "../base/constant", "../common/
         }
         else {
             if (!parent.isFiltered) {
-                operations_1.read(parent, isLayoutChange ? events.layoutChange : events.search, parent.path);
+                if (parent.isSortByClicked) {
+                    parent.notify(events.layoutChange, { files: parent.largeiconsviewModule.items });
+                    parent.isSortByClicked = false;
+                }
+                else {
+                    operations_1.read(parent, isLayoutChange ? events.layoutChange : events.search, parent.path);
+                }
             }
             else {
                 operations_1.filter(parent, events.layoutChange);
@@ -300,12 +306,7 @@ define(["require", "exports", "../base/classes", "../base/constant", "../common/
             searchWord = parent.breadcrumbbarModule.searchObj.element.value;
         }
         parent.isLayoutChange = true;
-        if (searchWord == '' && parent.view == "LargeIcons" && parent.largeiconsviewModule.items) {
-            parent.notify(events.layoutChange, { files: parent.largeiconsviewModule.items });
-        }
-        else {
-            searchWordHandler(parent, searchWord, true);
-        }
+        searchWordHandler(parent, searchWord, true);
     }
     exports.updateLayout = updateLayout;
     /* istanbul ignore next */
@@ -710,6 +711,7 @@ define(["require", "exports", "../base/classes", "../base/constant", "../common/
      */
     function sortbyClickHandler(parent, args) {
         var tick;
+        parent.isSortByClicked = true;
         if (args.item.id.indexOf('ascending') !== -1 || args.item.id.indexOf('descending') !== -1 || args.item.id.indexOf('none') !== -1) {
             tick = true;
         }

@@ -270,7 +270,12 @@ export function searchWordHandler(parent: IFileManager, value: string, isLayoutC
         Search(parent, isLayoutChange ? events.layoutChange : events.search, parent.path, searchWord, hiddenItems, !caseSensitive);
     } else {
         if (!parent.isFiltered) {
-            read(parent, isLayoutChange ? events.layoutChange : events.search, parent.path);
+            if (parent.isSortByClicked) {
+                parent.notify(events.layoutChange, { files: parent.largeiconsviewModule.items });
+                parent.isSortByClicked = false;
+            } else {
+                read(parent, isLayoutChange ? events.layoutChange : events.search, parent.path);
+            }
         } else {
             filter(parent, events.layoutChange);
         }
@@ -295,12 +300,7 @@ export function updateLayout(parent: IFileManager, view: string): void {
         searchWord = parent.breadcrumbbarModule.searchObj.element.value;
     }
     parent.isLayoutChange = true;
-    if (searchWord == '' && parent.view == "LargeIcons" && parent.largeiconsviewModule.items) {
-        parent.notify(events.layoutChange, { files: parent.largeiconsviewModule.items });
-    }
-    else {
-        searchWordHandler(parent, searchWord, true);
-    }
+    searchWordHandler(parent, searchWord, true);
 }
 
 /* istanbul ignore next */
@@ -679,6 +679,7 @@ export function getCssClass(parent: IFileManager, css: string): string {
  */
 export function sortbyClickHandler(parent: IFileManager, args: MenuEventArgs): void {
     let tick: boolean;
+    parent.isSortByClicked = true;
     if (args.item.id.indexOf('ascending') !== -1 || args.item.id.indexOf('descending') !== -1 || args.item.id.indexOf('none') !== -1) {
         tick = true;
     } else {

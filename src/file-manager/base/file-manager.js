@@ -58,6 +58,8 @@ define(["require", "exports", "@syncfusion/ej2-base", "@syncfusion/ej2-base", "@
             _this.folderPath = '';
             _this.isSameAction = false;
             _this.isFiltered = false;
+            // Specifies whether the sort by option is clicked or not.
+            _this.isSortByClicked = false;
             _this.enablePaste = false;
             _this.persistData = false;
             _this.retryArgs = [];

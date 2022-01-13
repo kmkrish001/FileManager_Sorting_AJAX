@@ -134,6 +134,8 @@ export class FileManager extends Component<HTMLElement> implements INotifyProper
     public currentItemText: string;
     public renameText: string;
     public isFiltered: boolean = false;
+    // Specifies whether the sort by option is clicked or not.
+    public isSortByClicked: boolean = false;
     public enablePaste: boolean = false;
     public splitterObj: Splitter;
     public persistData: boolean = false;

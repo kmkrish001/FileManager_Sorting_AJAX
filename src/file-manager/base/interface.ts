@@ -574,6 +574,7 @@ export interface IFileManager extends Component<HTMLElement> {
     // eslint-disable-next-line
     filterData: Object;
     isFiltered: boolean;
+    isSortByClicked: boolean;
     isLayoutChange: boolean;
     isSearchCut: boolean;
     isPasteError: boolean;
